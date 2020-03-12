@@ -8,8 +8,13 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.css">
 <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js" type="text/javascript"></script> 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" type="text/javascript"></script> 
+<link rel="stylesheet" href="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.css">
+<link rel="stylesheet" href="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.css">
+<link rel="stylesheet" href="https://unpkg.com/@fullcalendar/list@4.4.0/main.min.css">
+<script src="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.js" type="text/javascript"></script> 
+<script src="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.js" type="text/javascript"></script> 
+<script src="https://unpkg.com/@fullcalendar/list@4.4.0/main.min.js" type="text/javascript"></script> 
+<script src="https://unpkg.com/@fullcalendar/google-calendar@4.4.0/main.min.js" type="text/javascript"></script> 
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
@@ -113,9 +118,10 @@
     </div>
   </div>
 </div>
+    <div id='calendar'></div>  
 </div>
 
-    
+
 
 
     
@@ -183,7 +189,10 @@ footer p {
 
 
 
-
+#calendar {
+  max-width: 75%;
+  margin: 4% 0 0 12%;
+}
 
 
     
@@ -289,5 +298,38 @@ body {
     
 </style>
 
+<script>document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    plugins: [ 'dayGrid', 'list', 'googleCalendar' ],
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,listYear'
+    },
+
+    displayEventTime: false, // don't show the time column in list view
+
+    googleCalendarApiKey: 'AIzaSyAPALXMnMGtdOQZ33qNQmcIw94b5TLJGV8',
+
+    
+    events: 'en.canadian#holiday@group.v.calendar.google.com',
+
+    eventClick: function(arg) {
+
+      // opens events in a popup window
+      window.open(arg.event.url, '_blank', 'width=700,height=600');
+
+      // prevents current tab from navigating
+      arg.jsEvent.preventDefault();
+    }
+
+  });
+
+  calendar.render();
+});</script>
+    
+    
 </body>
 </html>
